@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Dziennik Szkolny</title>
+    <!-- Podpięty oddzielny plik CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- GŁÓWNY NAGŁÓWEK APLIKACJI (Widoczny po zalogowaniu) -->
+    <header id="header" class="header" style="display: none;">
+        <div class="header-left">
+            <h2>E-Dziennik Szkolny</h2>
+            <span id="current-class-badge" class="badge">Klasa: Brak</span>
+        </div>
+        <div class="user-info">
+            <span id="user-display-name">Imię i Nazwisko (Rola)</span>
+            <button id="btn-logout" class="btn btn-danger">Wyloguj</button>
+        </div>
+    </header>
+
+    <div class="container">
+        
+        <!-- ================= EKRAN LOGOWANIA ================= -->
+        <div id="login-view" class="card login-card">
+            <h2>Logowanie do systemu</h2>
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="login-input">Login:</label>
+                    <input type="text" id="login-input" required placeholder="Wpisz swój login">
+                </div>
+                <div class="form-group">
+                    <label for="password-input">Hasło:</label>
+                    <input type="password" id="password-input" required placeholder="Wpisz hasło">
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Zaloguj się</button>
+            </form>
+            <div class="hint-box">
+                <p><strong>Konta testowe (hasło: 123):</strong></p>
+                <ul>
+                    <li>Admin: <code>admin</code></li>
+                    <li>Nauczyciel: <code>nauczyciel1</code></li>
+                    <li>Uczeń: <code>uczen1</code></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- ================= PANEL GŁÓWNY APLIKACJI ================= -->
+        <div id="app-view" style="display: none;">
+            
+            <!-- NAWIGACJA / ZAKŁADKI -->
+            <nav class="nav-tabs" id="nav-tabs">
+                <button class="tab-btn active" data-target="tab-grades">Oceny</button>
+                <button class="tab-btn" data-target="tab-schedule">Plan Lekcji</button>
+                <button class="tab-btn" data-target="tab-notices">Uwagi i Pochwały</button>
+                <button class="tab-btn" data-target="tab-admin" id="nav-admin-btn" style="display: none;">Panel Administratora</button>
+            </nav>
+
+            <!-- ZAKŁADKA 1: OCENY -->
+            <div id="tab-grades" class="tab-content active">
+                <h3>Oceny uczniów</h3>
+                
+                <!-- Panel sterowania dla nauczycieli/admina -->
+                <div id="teacher-grade-panel" class="control-panel" style="display: none;">
+                    <h4>Wystaw ocenę</h4>
+                    <form id="add-grade-form">
+                        <div class="form-row">
+                            <select id="grade-student-select" required>
+                                <option value="">Wybierz ucznia...</option>
+                            </select>
+                            <select id="grade-subject-select" required>
+                                <option value="">Wybierz przedmiot...</option>
+                                <option value="Matematyka">Matematyka</option>
+                                <option value="Język Polski">Język Polski</option>
+                                <option value="Informatyka">Informatyka</option>
+                                <option value="Fizyka">Fizyka</option>
+                                <option value="Język Angielski">Język Angielski</option>
+                            </select>
+                            <select id="grade-value-select" required>
+                                <option value="6">6 (celujący)</option>
+                                <option value="5">5 (bardzo dobry)</option>
+                                <option value="4">4 (dobry)</option>
+                                <option value="3">3 (dostateczny)</option>
+                                <option value="2">2 (dopuszczający)</option>
+                                <option value="1">1 (niedostateczny)</option>
+                            </select>
+                            <input type="text" id="grade-desc-input" placeholder="Opis (np. Sprawdzian)" required>
+                            <button type="submit" class="btn btn-success">Wystaw</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div id="grades-container"></div>
+            </div>
+
+            <!-- ZAKŁADKA 2: PLAN LEKCJI -->
+            <div id="tab-schedule" class="tab-content">
+                <div class="section-header">
+                    <h3>Plan Lekcji</h3>
+                    <button id="btn-edit-schedule" class="btn btn-secondary" style="display: none;">Edytuj plan lekcji</button>
+                </div>
+                
+               <!-- Panel dodawania i zarządzania zastępstwami -->
+                <div id="substitutions-panel" class="control-panel" style="display: none; margin-bottom: 20px;">
+                    <h4>Zarządzaj zastępstwami</h4>
+                    <form id="add-substitution-form" style="margin-bottom: 15px;">
+                        <div class="form-row">
+                            <select id="sub-day-select" required>
+                                <option value="">Wybierz dzień...</option>
+                                <option value="0">Poniedziałek</option>
+                                <option value="1">Wtorek</option>
+                                <option value="2">Środa</option>
+                                <option value="3">Czwartek</option>
+                                <option value="4">Piątek</option>
+                            </select>
+                            <select id="sub-hour-select" required>
+                                <option value="">Wybierz godzinę...</option>
+                            </select>
+                            <input type="text" id="sub-info-input" placeholder="Opis (np. Zast. z mat. - mgr Nowak)" required>
+                            <button type="submit" class="btn btn-success">Dodaj zastępstwo</button>
+                        </div>
+                    </form>
+                    <div id="substitutions-list">
+                        <!-- Tutaj pojawią się aktywne zastępstwa z przyciskiem usuwania -->
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table id="schedule-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 100px;">Godzina</th>
+                                <th>Poniedziałek</th>
+                                <th>Wtorek</th>
+                                <th>Środa</th>
+                                <th>Czwartek</th>
+                                <th>Piątek</th>
+                            </tr>
+                        </thead>
+                        <tbody id="schedule-tbody"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- ZAKŁADKA 3: UWAGI I POCHWAŁY -->
+            <div id="tab-notices" class="tab-content">
+                <h3>Uwagi i Pochwały</h3>
+                
+                <div id="teacher-notice-panel" class="control-panel" style="display: none;">
+                    <h4>Dodaj uwagę lub pochwałę</h4>
+                    <form id="add-notice-form">
+                        <div class="form-group">
+                            <select id="notice-student-select" required>
+                                <option value="">Wybierz ucznia...</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <select id="notice-type-select" required>
+                                <option value="positive">Pochwała</option>
+                                <option value="negative">Uwaga negatywna</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <textarea id="notice-text-input" placeholder="Treść wpisu..." rows="3" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-success">Dodaj wpis</button>
+                    </form>
+                </div>
+
+                <div id="notices-container"></div>
+            </div>
+
+            <!-- ZAKŁADKA 4: PANEL ADMINA -->
+            <div id="tab-admin" class="tab-content">
+                <h3>Panel Administratora</h3>
+                
+                <div class="admin-section">
+                    <h4>Dodaj nowego użytkownika</h4>
+                    <form id="admin-add-user-form">
+                        <div class="form-row">
+                            <input type="text" id="admin-new-username" placeholder="Login" required>
+                            <input type="password" id="admin-new-pass" placeholder="Hasło" required>
+                            <input type="text" id="admin-new-fullname" placeholder="Imię i Nazwisko" required>
+                            <select id="admin-new-role" required>
+                                <option value="UCZEN">Uczeń</option>
+                                <option value="NAUCZYCIEL">Nauczyciel</option>
+                                <option value="ADMIN">Admin</option>
+                            </select>
+                            <input type="text" id="admin-new-class" placeholder="Klasa (np. 1A)" required>
+                            <button type="submit" class="btn btn-primary">Utwórz konto</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="admin-section">
+                    <h4>Zarządzanie użytkownikami, klasami i usuwaniem</h4>
+                    <div class="table-responsive">
+                        <table id="admin-users-table">
+                            <thead>
+                                <tr>
+                                    <th>Login</th>
+                                    <th>Imię i Nazwisko</th>
+                                    <th>Rola</th>
+                                    <th>Klasa</th>
+                                    <th>Akcje</th>
+                                </tr>
+                            </thead>
+                            <tbody id="admin-users-tbody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!-- Sekcja zarządzania przedmiotami -->
+                <div class="admin-section" style="margin-top: 30px;">
+                    <h4>Zarządzanie przedmiotami szkolnymi</h4>
+                    <form id="admin-add-subject-form" style="display: flex; gap: 10px; margin-bottom: 15px;">
+                        <input type="text" id="admin-new-subject-name" placeholder="Nazwa nowego przedmiotu (np. Biologia)" required>
+                        <button type="submit" class="btn btn-primary" style="width: auto;">Dodaj przedmiot</button>
+                    </form>
+                    <div class="table-responsive" style="max-height: 200px; overflow-y: auto;">
+                        <table>
+                            <thead>
+                                <tr><th>Przedmiot</th><th>Akcja</th></tr>
+                            </thead>
+                            <tbody id="admin-subjects-tbody"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+        </div>
+    </div>
+
+    <!-- Podpięty oddzielny plik JavaScript (będziemy go pisać w kolejnym kroku) -->
+    <script src="script.js"></script>\
+   <script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-app.js";
+  import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-firestore.js";
+
+  // 1. Twoja konfiguracja Firebase
+  const firebaseConfig = {
+    apiKey: "AIzaSyCL5BiRMa7Ris9uA7BRzK_GP0o06xrlir8",
+    authDomain: "e-dziennik-szkolny.firebaseapp.com",
+    projectId: "e-dziennik-szkolny",
+    storageBucket: "e-dziennik-szkolny.firebasestorage.app",
+    messagingSenderId: "785321556541",
+    appId: "1:785321556541:web:49d112f1c62f46073c8854",
+    measurementId: "G-JNBY4Y7Q0N"
+  };
+
+  // Inicjalizacja
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  // 2. Automatyczne pobieranie ocen z bazy przy starcie strony
+  async function wczytajOceny() {
+    try {
+      const querySnapshot = await getDocs(collection(db, "oceny"));
+      querySnapshot.forEach((doc) => {
+        const data = doc.data();
+        console.log("Pobrano ocenę:", data);
+        // Tutaj aplikacja może wstawić dane do tabeli na stronie
+      });
+    } catch (e) {
+      console.error("Błąd pobierania ocen: ", e);
+    }
+  }
+
+  // Uruchomienie pobierania po załadowaniu strony
+  window.addEventListener("DOMContentLoaded", wczytajOceny);
+
+  // 3. Funkcja wywoływana po kliknięciu przycisku "Wystaw"
+  window.zapiszOcene = async function() {
+    // Uwaga: Dopasuj nazwy ID poniżej do tych, które masz w swoim formularzu HTML!
+    const uczen = document.getElementById("pole-wybierz-ucznia")?.value || "Piotr Nowak";
+    const przedmiot = document.getElementById("pole-wybierz-przedmiot")?.value || "Matematyka";
+    const ocena = document.getElementById("pole-ocena")?.value || "5";
+    const opis = document.getElementById("pole-opis")?.value || "";
+
+    try {
+      await addDoc(collection(db, "oceny"), {
+        uczen: uczen,
+        przedmiot: przedmiot,
+        ocena: Number(ocena),
+        opis: opis,
+        data: new Date().toISOString()
+      });
+      alert("Ocena została pomyślnie zapisana w bazie Firebase!");
+      wczytajOceny(); // Odświeżenie listy
+    } catch (e) {
+      console.error("Błąd zapisu: ", e);
+      alert("Wystąpił błąd podczas zapisu.");
+    }
+  };
+</script>
+</body>
+</html>

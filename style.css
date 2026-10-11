@@ -1,0 +1,376 @@
+/* === NOWOCZESNY DESIGN E-DZIENNIKA === */
+:root {
+    --primary: #0f172a;
+    --primary-light: #1e293b;
+    --accent: #4f46e5;
+    --accent-hover: #4338ca;
+    --success: #22c55e;
+    --success-hover: #16a34a;
+    --danger: #ef4444;
+    --danger-hover: #dc2626;
+    --bg: #f8fafc;
+    --card-bg: #ffffff;
+    --text: #0f172a;
+    --text-muted: #64748b;
+    --border: #e2e8f0;
+    --radius: 12px;
+    --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -4px rgba(0, 0, 0, 0.05);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* === NAGŁÓWEK === */
+header {
+    background: linear-gradient(135deg, var(--primary), var(--primary-light));
+    color: white;
+    padding: 18px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.header-left h2 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+}
+
+.badge {
+    background-color: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(5px);
+    color: white;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    font-weight: 500;
+    font-size: 0.95rem;
+}
+
+/* === KONTENER GŁÓWNY === */
+.container {
+    max-width: 1280px;
+    margin: 35px auto;
+    padding: 0 20px;
+    width: 100%;
+    flex: 1;
+}
+
+/* === KARTY I FORMULARZE === */
+.card {
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 40px;
+    border: 1px solid var(--border);
+}
+
+.login-card {
+    max-width: 420px;
+    margin: 60px auto;
+}
+
+.login-card h2 {
+    margin-bottom: 25px;
+    color: var(--primary);
+    text-align: center;
+    font-size: 1.6rem;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    font-size: 0.95rem;
+    outline: none;
+    transition: all 0.2s ease;
+    background-color: #fff;
+    color: var(--text);
+}
+
+input:focus, select:focus, textarea:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
+}
+
+.form-row {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.form-row input, .form-row select {
+    flex: 1;
+    min-width: 150px;
+}
+
+/* === PRZYCISKI === */
+.btn {
+    padding: 12px 20px;
+    border: none;
+    border-radius: var(--radius);
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.btn:active {
+    transform: scale(0.97);
+}
+
+.btn-primary {
+    background-color: var(--accent);
+    color: white;
+    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+}
+.btn-primary:hover { background-color: var(--accent-hover); }
+
+.btn-success {
+    background-color: var(--success);
+    color: white;
+    box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
+}
+.btn-success:hover { background-color: var(--success-hover); }
+
+.btn-danger {
+    background-color: var(--danger);
+    color: white;
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+}
+.btn-danger:hover { background-color: var(--danger-hover); }
+
+.btn-secondary {
+    background-color: #f1f5f9;
+    color: var(--text);
+    border: 1.5px solid var(--border);
+}
+.btn-secondary:hover { background-color: #e2e8f0; }
+
+.w-100 { width: 100%; }
+
+/* === WSKAZÓWKI LOGOWANIA === */
+.hint-box {
+    margin-top: 30px;
+    background: #f8fafc;
+    border: 1px solid var(--border);
+    padding: 20px;
+    border-radius: var(--radius);
+    font-size: 0.9rem;
+}
+
+.hint-box ul {
+    list-style-type: none;
+    margin-top: 10px;
+}
+
+.hint-box li {
+    margin-bottom: 6px;
+    color: var(--text-muted);
+}
+
+.hint-box code {
+    background: #e2e8f0;
+    padding: 3px 8px;
+    border-radius: 6px;
+    font-family: monospace;
+    color: var(--primary);
+    font-weight: 600;
+}
+
+/* === ZAKŁADKI === */
+.nav-tabs {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 30px;
+}
+
+.tab-btn {
+    background: var(--card-bg);
+    border: 1.5px solid var(--border);
+    padding: 12px 24px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    cursor: pointer;
+    border-radius: var(--radius);
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+}
+
+.tab-btn:hover {
+    color: var(--text);
+    border-color: #cbd5e1;
+    transform: translateY(-1px);
+}
+
+.tab-btn.active {
+    color: white;
+    background-color: var(--accent);
+    border-color: var(--accent);
+    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25);
+}
+
+.tab-content {
+    display: none;
+    background: var(--card-bg);
+    padding: 35px;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border);
+}
+
+.tab-content.active {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* === PANELE STEROWANIA I SEKCJE === */
+.control-panel, .admin-section {
+    background: #f8fafc;
+    border: 1.5px solid var(--border);
+    padding: 25px;
+    border-radius: var(--radius);
+    margin-bottom: 30px;
+}
+
+.control-panel h4, .admin-section h4 {
+    margin-bottom: 18px;
+    color: var(--primary);
+    font-size: 1.1rem;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.section-header h3 {
+    font-size: 1.4rem;
+    color: var(--primary);
+}
+
+/* === TABELE === */
+.table-responsive {
+    overflow-x: auto;
+    border-radius: var(--radius);
+    border: 1.5px solid var(--border);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    background: white;
+}
+
+th, td {
+    padding: 15px 20px;
+    border-bottom: 1px solid var(--border);
+    border-right: 1px solid var(--border);
+}
+
+th:last-child, td:last-child {
+    border-right: none;
+}
+
+th {
+    background-color: #f8fafc;
+    color: var(--primary);
+    font-weight: 700;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+tr:last-child td {
+    border-bottom: none;
+}
+
+tr:hover td {
+    background-color: #fafafa;
+}
+
+/* Plan lekcji pola edycyjne */
+.schedule-input {
+    width: 100%;
+    padding: 6px 10px;
+    border: 1.5px solid var(--accent);
+    border-radius: 6px;
+    font-size: 0.9rem;
+}
+
+/* Oceny - Badge */
+.grade-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #e0e7ff;
+    color: #3730a3;
+    width: 32px;
+    height: 32px;
+    margin: 4px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    cursor: help;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.03);
+    transition: transform 0.1s;
+}
+
+.grade-badge:hover {
+    transform: scale(1.1);
+}
